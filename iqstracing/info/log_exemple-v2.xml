@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE log SYSTEM "Logging_v2.dtd">
 <log>
-	<event application="vlab" action="vlab_init" user="user7f7101ec0" session="vlab859fd51468" time="20070529155645 CEST" time_ms="1180447005359" 
+	<event application="vlab" action="vlab_init" user="user7f7101ec0" session="vlab859fd51468" time="20070529155645 CEST" time_ms="1180447005359"
 			number="1">
 		<param name="version" value="1.5.0 (August 19, 2005)"/>
 		<description>The virtual lab (1.5.0 (August 19, 2005)) is started.</description>
@@ -14,5 +14,5 @@
 		<param name="mu" value="0"/>
 		<param name="sigma" value="1"/>
 	</event>
-	
-</lo
+
+</log>
