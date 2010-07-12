@@ -23,7 +23,7 @@ public class Tracer{
     static String filename2;
     // Define part for Hand made xml file from ascii output file
 
-    public static void set_user(Parametres par) {
+    public static void set_user(OpticalTweezersParametres par) {
 /**        do {
             user_id=JOptionPane.showInputDialog("Introdueix el teu nom","");
         } while (user_id==null || user_id.equals("") || 
@@ -80,7 +80,7 @@ public class Tracer{
         } catch (IOException ignored) {}
 
     }
-    public static void write_all_param(Parametres par) {
+    public static void write_all_param(OpticalTweezersParametres par) {
         write_param("power",par.P);
         write_param("Wavelength",par.lambda);
         write_param("Refractive Index - N1",par.n1);
