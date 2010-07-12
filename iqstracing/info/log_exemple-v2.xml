@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log SYSTEM "Logging_v2.dtd">
+<log>
+	<event application="vlab" action="vlab_init" user="user7f7101ec0" session="vlab859fd51468" time="20070529155645 CEST" time_ms="1180447005359" 
+			number="1">
+		<param name="version" value="1.5.0 (August 19, 2005)"/>
+		<description>The virtual lab (1.5.0 (August 19, 2005)) is started.</description>
+	</event>
+	<event application="statmedia-calc" action="reset_vars" user="4307" session="4307_20070515093015" time="20070515093015 CEST" number="1">
+	</event>
+	<event application="statmedia-calc" action="show_probabilistic_interface" user="4307" session="4307_20070515093015" time="20070515093425 CEST"
+			number="2">
+		<param name="distribution" value="Distribución normal"/>
+		<param name="mu" value="0"/>
+		<param name="sigma" value="1"/>
+	</event>
+	
+</lo

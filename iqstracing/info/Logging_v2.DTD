@@ -1,0 +1,74 @@
+<!--Root node: log-->
+<!--Will be skipped when tracing to a sequential file or database-->
+<!--In this case it will be added before parsing-->
+<!ELEMENT log (event*,state*)>
+
+<!--Logging can be event-based or state-based, so both
+system should be allowed-->
+
+<!--For event-based logging...-->
+<!ELEMENT event (param*,description?)>
+	<!--The application that request/does the logging-->
+	<!ATTLIST event application CDATA #REQUIRED>
+	<!--The name for the logged action-->
+	<!ATTLIST event action CDATA #REQUIRED>
+	<!--The user whose actions are logged-->
+	<!ATTLIST event user CDATA #REQUIRED>
+	<!--The logged session. A session will be a continued
+	sequence of event between the login and the logout of the
+	user. A suggested format could be include the username and
+	the timestamp for the start of the session-->
+	<!ATTLIST event session CDATA #REQUIRED>
+	<!--A sequence number within the session to allow sorting-->
+	<!ATTLIST event number CDATA #REQUIRED>
+	<!--A timestamp string formatted as YYYYMMDDHHmmss ZZZ
+	corresponding to client-side time-->
+	<!ATTLIST event time CDATA #REQUIRED>
+	<!--A numeric value that would allow computing time
+	differences for rapid interactions-->
+	<!ATTLIST event time_ms CDATA #IMPLIED>
+	<!--The type of the event either active (an action of the user)
+	or reactive (a response of the software to a previous event).
+	The reaction is assumed to be to the previous event unless
+	the reference action(next attribute) is specified-->
+	<!ATTLIST event type (active|reactive) "active">
+	<!--The event that contents tha action of the user that is
+	related to this reaction. Will be ignored if type="active"-->
+	<!ATTLIST event action_ref CDATA #IMPLIED>
+	
+<!--For state-based logging, each trace is a serialization
+of the application state, so...-->
+<!ELEMENT state (#PCDATA)>
+	<!--The application that request/does the logging-->
+	<!ATTLIST state application CDATA #REQUIRED>
+	<!--The user whose activity is logged-->
+	<!ATTLIST state user CDATA #REQUIRED>
+	<!--The logged session. A session will be a continued
+	sequence of event between the login and the logout of the
+	user. A suggested format could be include the username and
+	the timestamp for the start of the session-->
+	<!ATTLIST state session CDATA #REQUIRED>
+	<!--A sequence number within the session to allow sorting-->
+	<!ATTLIST state number CDATA #REQUIRED>
+	<!--A timestamp string formatted as YYYYMMDDHHmmss ZZZ
+	corresponding to client-side time-->
+	<!ATTLIST state time CDATA #REQUIRED>
+	<!--A numeric value that would allow computing time
+	differences for rapid interactions-->
+	<!ATTLIST state time_ms CDATA #IMPLIED>
+<!--
+==================================================================
+-->
+<!--This element will allow for including any information that will
+make the event meaningful. Its use maps the PARAM children in the OBJECT
+tag in HTML-->
+<!ELEMENT param EMPTY>
+	<!--The property or characteristic of the event-->
+	<!ATTLIST param name CDATA #REQUIRED>
+	<!--Its value-->
+	<!ATTLIST param value CDATA #REQUIRED>
+
+<!--This element allows for including a human-readable version of 
+the traced information, such that it could be extracted to form a
+narrative. Symbol would need to be converted to entities-->
+<!ELEMENT description (#PCDATA)>
