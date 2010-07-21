@@ -19,7 +19,6 @@ public class RandomGenerator {
 			randomNumber = rand.nextInt(36);
 			result[i] = (char)base36.get(randomNumber);
 		}
-		System.out.println(new String (result));
 		return new String (result);
 	}
 	public static void main (String[]args){
