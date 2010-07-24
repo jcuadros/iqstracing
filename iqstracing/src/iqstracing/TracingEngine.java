@@ -10,7 +10,7 @@ public class TracingEngine {
 	String session;
 	String time;
 	String time_ms;
-	Collection<String> tracerCollection;
+	Collection<Tracer> tracerCollection;
 	boolean status;
 
 	//Constructors:
