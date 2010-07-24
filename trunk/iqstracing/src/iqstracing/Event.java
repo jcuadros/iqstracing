@@ -4,11 +4,11 @@ import java.util.*;
 public class Event {
 	//Fields:
 	String actionName;
-	Map <String,Integer> actionParameters = new Hashtable<String,Integer>();
+	Map <String,String> actionParameters = new Hashtable<String,String>();
 	String eventType; //String?
 	String eventPreReference; //String?
 
-	public Event (String actionName, Map<String,Integer> actionParameters,
+	public Event (String actionName, Map<String,String> actionParameters,
 								String eventType,String eventPreReference){
 		this.actionName = actionName;
 		this.actionParameters = actionParameters;
