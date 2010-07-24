@@ -1,0 +1,9 @@
+In order to use this package to trace from a Java application, the following steps are required:
+1) Make sure the package is available within the build path.
+2) To start tracing an instance of the TracingEngine class must be created, this object should be available from any class that might produce tracing information. At this point, application, user and session data will be provided to the tracing package.
+3) Adjust the tracing modes by invoking the methods of the TracingEngine class: Add file tracers, remove the console tracer...
+4) To trace an event, follow:
+   4a. Create a Hashtable<String,String> including the parametres of the action. The key will be the name of the parameter and the value will be the value of the parameter.
+   4b. Create an instance of Event with its action name and its parameters.
+   4c. Trace by sending the Event to the TracingEngine.trace method.
+
