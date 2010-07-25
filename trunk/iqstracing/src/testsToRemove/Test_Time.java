@@ -6,7 +6,7 @@ import java.text.*;
 public class Test_Time {
 	static String time;
 	public static void main (String[]args){
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss zzz", Locale.getDefault());
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss zzz");
 		time = dateFormat.format(new Date());
 		System.out.println(time);
 	}
