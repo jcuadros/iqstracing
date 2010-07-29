@@ -1,6 +1,6 @@
 package testsToRemove;
 import java.util.Hashtable;
-
+import javax.swing.*;
 
 public class test {
 
@@ -15,9 +15,7 @@ public class test {
 		for(String s:taula.keySet()) {
 			System.out.println(s + " " +taula.get(s));
 			System.out.println(new Double((double)System.nanoTime()*Math.pow(10,-6)).toString());
-			
 		}
-		
 	}
 
 }
