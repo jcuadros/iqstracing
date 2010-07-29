@@ -31,13 +31,15 @@ public class TracingEngine {
 	}
 
 	//Methods:
-	/*public boolean setStatus(){
+	public void setTracingStatus(boolean newStatus){
+		status=newStatus;
+	}
+
+	public boolean getTracingStatus(){
 		return status;
 	}
-	public boolean getStatus(){
-		return status;
-	}
-	public void startTracingToFile(){
+
+	/*public void startTracingToFile(){
 	}
 	public void stopTracingToFile(){
 	}
