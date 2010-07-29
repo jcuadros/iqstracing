@@ -1,6 +1,5 @@
 package testsToRemove;
 import java.util.Hashtable;
-import javax.swing.*;
 
 public class test {
 
