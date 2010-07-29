@@ -1,34 +1,24 @@
 package iqstracing;
 
+import java.io.*;
+
 public class FileTracer extends Tracer {
-	String file; //String?
+	File file;
 
 	public FileTracer (String user, String session, String file){
 		super(user,session);
-		this.file = file;
+		this.file = new File(file);
 	}
 	public FileTracer (String user, String session){
 		super(user,session);
-		this.file = session;
+		this.file = new File(session);
 	}
 
-	public void trace(Event event, String time, String time_ms, int sequence){
-
-	}
-
-	public void trace(State state, String time, String time_ms, int sequence){
+	public void trace(Event event, String time, double time_ms, int sequence){
 
 	}
 
-	public void setApplication(){
-
-	}
-
-	public void setUser(){
-
-	}
-
-	public void setSession(){
+	public void trace(State state, String time, double time_ms, int sequence){
 
 	}
 }
