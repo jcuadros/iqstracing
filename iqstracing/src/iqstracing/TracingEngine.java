@@ -40,10 +40,10 @@ public class TracingEngine {
 	}
 
 	//Methods:
-	public void setStatus(boolean b){
+	public void setTracingStatus(boolean b){
 		this.status = b;
 	}
-	public boolean getStatus(){
+	public boolean getTracingStatus(){
 		return this.status;
 	}
 
