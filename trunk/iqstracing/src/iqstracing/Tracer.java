@@ -12,8 +12,8 @@ public abstract class Tracer {
 		this.session = Session;
 	}
 
-	public abstract void trace(Event event, String time, long time_ms, int sequence);
-	public abstract void trace(State state, String time, long time_ms, int sequence);
+	public abstract void trace(Event event, String time, double time_ms, int sequence);
+	public abstract void trace(State state, String time, double time_ms, int sequence);
 
 	public void setApplication(){
 		//this.application = ;
