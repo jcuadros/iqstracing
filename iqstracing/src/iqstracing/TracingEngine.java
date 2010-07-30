@@ -11,7 +11,7 @@ public class TracingEngine {
 	int sequence;
 	String session;
 	String time;
-	long time_ms;
+	double time_ms;
 	Collection<Tracer> tracerCollection;
 	boolean status = true;
 
@@ -21,7 +21,7 @@ public class TracingEngine {
 		this.user = user;
 		this.session = session;
 		this.time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
-		this.time_ms = System.currentTimeMillis();
+		this.time_ms = System.nanoTime()/1000000;
 	}
 
 	public TracingEngine (String application, String user){
@@ -29,7 +29,7 @@ public class TracingEngine {
 		this.user = user;
 		this.session = user + "_" + RandomGenerator.generate(6);
 		this.time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
-		this.time_ms = System.currentTimeMillis();
+		this.time_ms = System.nanoTime()/1000000;
 	}
 	public TracingEngine (String application){
 		this.application = application;
