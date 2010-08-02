@@ -2,7 +2,6 @@ package iqstracing;
 
 import java.text.SimpleDateFormat;
 import java.util.*;
-import java.io.*;
 
 public class TracingEngine {
 	//Fields:
@@ -10,8 +9,6 @@ public class TracingEngine {
 	String user;
 	int sequence;
 	String session;
-	String time;
-	double time_ms;
 	Collection<Tracer> tracerCollection;
 	boolean status = true;
 
@@ -20,23 +17,16 @@ public class TracingEngine {
 		this.application = application;
 		this.user = user;
 		this.session = session;
-		this.time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
-		this.time_ms = System.nanoTime()/1000000;
 	}
 
 	public TracingEngine (String application, String user){
-		this.application = application;
-		this.user = user;
-		this.session = user + "_" + RandomGenerator.generate(6);
-		this.time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
-		this.time_ms = System.nanoTime()/1000000;
+		this(application,user,user + "_" + RandomGenerator.generate(6));
 	}
+
 	public TracingEngine (String application){
 		this.application = application;
 		this.user = RandomGenerator.generate(6);
 		this.session = this.user + "_" + RandomGenerator.generate(6);
-		this.time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
-		this.time_ms = System.nanoTime()/1000000;
 	}
 
 	//Methods:
@@ -47,30 +37,55 @@ public class TracingEngine {
 		return this.status;
 	}
 
-	public void startTracingToFile(File file){
-
+	public void startTracingToFile(String fileName){
+		/*
+		 * This method checks there is not already a FileTracer for this fileName (full path).
+		 * in the tracerCollection. In case the FileTracer exists, nothing is done.
+		 * If the desired tracer does not exist, it is created and added to the tracerCollection.
+		 */
 	}
 
-	public void stopTracingToFile(File file){
-
+	public void stopTracingToFile(String fileName){
+		/*
+		 * This method checks there is a FileTracer for this fileName (full path).
+		 * in the tracerCollection. In case the FileTracer does not exists, nothing is done.
+		 * If the tracer exists, it is removed from the tracerCollection.
+		 */
 	}
 
 	public void startTracingToConsole(){
-
+		/*
+		 * This method checks there is not already a ConsoleTracer in the tracerCollection.
+		 * In case the ConsoleTracer exists, nothing is done.
+		 * If the desired tracer does not exist, it is created and added to the tracerCollection.
+		 */
 	}
 
 	public void stopTracingToConsole(){
-
+		/*
+		 * This method checks there is a ConsoleTracer in the tracerCollection.
+		 * In case the ConsoleTracer does not exist, nothing is done.
+		 * If the tracer exists, it is removed from the tracerCollection.
+		 */
 	}
 
 	public void trace (Event event){
+		String time;
+		double time_ms;
+
+		time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
+		time_ms = System.nanoTime()/1000000;
+
+		/*
+		 * For each tracer in the tracerCollection its trace(Event) method is called to produce the desired
+		 * tracing.
+		 */
 
 	}
 	public void trace (State state){
-
-	}
-
-	public static void main (String[]args){
-
+		/*
+		 * For each tracer in the tracerCollection its trace(State) method is called to produce the desired
+		 * tracing.
+		 */
 	}
 }
