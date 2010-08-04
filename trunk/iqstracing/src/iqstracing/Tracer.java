@@ -15,15 +15,15 @@ public abstract class Tracer {
 	public abstract void trace(Event event, String time, double time_ms, int sequence);
 	public abstract void trace(State state, String time, double time_ms, int sequence);
 
-	public void setApplication(){
-		//this.application = ;
+	public static String setApplication(){
+		return "";//falta
 	}
 
-	public void setUser(){
-		this.user = JOptionPane.showInputDialog("Introdueixi el nom d'usuari", "");
+	public static String setUser(){
+		return JOptionPane.showInputDialog("Introdueixi el nom d'usuari", "");
 	}
 
-	public void setSession(){
-		this.session = JOptionPane.showInputDialog("Introdueixi sessió", "");
+	public static String setSession(){
+		return JOptionPane.showInputDialog("Introdueixi sessió", "");
 	}
 }

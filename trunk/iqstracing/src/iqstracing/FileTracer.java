@@ -28,7 +28,8 @@ public class FileTracer extends Tracer {
 			sb.append("time=\"" + time + "\" ");
 			sb.append("time_ms=\"" + time_ms + "\" ");
 			sb.append("type=\"" + event.eventType + "\" ");
-			sb.append("action_ref=\"" + event.eventPreReference + "\"");
+			if (event.eventType.toLowerCase() == "reactive")
+				sb.append("action_ref=\"" + event.eventPreReference + "\"");
 			sb.append(">\n");
 			if (event.actionParameters != null){
 				for (String key : event.actionParameters.keySet())
