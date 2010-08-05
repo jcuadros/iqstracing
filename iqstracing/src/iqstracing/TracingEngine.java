@@ -7,10 +7,10 @@ public class TracingEngine {
 	//Fields:
 	String application;
 	String user;
-	int sequence;
 	String session;
-	Collection<Tracer> tracerCollection;
-	boolean status = true;
+	static Collection<Tracer> tracerCollection = new LinkedList<Tracer>();
+	static boolean status = true;
+	static int sequence = 0;
 
 	//Constructors:
 	public TracingEngine (String application, String user, String session){
@@ -30,11 +30,14 @@ public class TracingEngine {
 	}
 
 	//Methods:
-	public void setTracingStatus(boolean b){
-		this.status = b;
+	public static void setTracingStatus(boolean b){
+		status = b;
+		if (b == false){
+			tracerCollection.removeAll(tracerCollection);
+		}
 	}
-	public boolean getTracingStatus(){
-		return this.status;
+	public static boolean getTracingStatus(){
+		return status;
 	}
 
 	public void startTracingToFile(String fileName){
@@ -43,6 +46,10 @@ public class TracingEngine {
 		 * in the tracerCollection. In case the FileTracer exists, nothing is done.
 		 * If the desired tracer does not exist, it is created and added to the tracerCollection.
 		 */
+		FileTracer fileTracer = new FileTracer(user, session, fileName);
+		if (!tracerCollection.contains(fileTracer))
+			tracerCollection.add(fileTracer);
+
 	}
 
 	public void stopTracingToFile(String fileName){
@@ -51,6 +58,9 @@ public class TracingEngine {
 		 * in the tracerCollection. In case the FileTracer does not exists, nothing is done.
 		 * If the tracer exists, it is removed from the tracerCollection.
 		 */
+		FileTracer fileTracer = new FileTracer(user, session, fileName);
+		if (tracerCollection.contains(fileTracer))
+			tracerCollection.remove(fileTracer);
 	}
 
 	public void startTracingToConsole(){
@@ -59,6 +69,9 @@ public class TracingEngine {
 		 * In case the ConsoleTracer exists, nothing is done.
 		 * If the desired tracer does not exist, it is created and added to the tracerCollection.
 		 */
+		ConsoleTracer consoleTracer = new ConsoleTracer(user, session);
+		if (!tracerCollection.contains(consoleTracer))
+			tracerCollection.add(consoleTracer);
 	}
 
 	public void stopTracingToConsole(){
@@ -67,9 +80,12 @@ public class TracingEngine {
 		 * In case the ConsoleTracer does not exist, nothing is done.
 		 * If the tracer exists, it is removed from the tracerCollection.
 		 */
+		ConsoleTracer consoleTracer = new ConsoleTracer(user, session);
+		if (tracerCollection.contains(consoleTracer))
+			tracerCollection.remove(consoleTracer);
 	}
 
-	public void trace (Event event){
+	public static void trace (Event event){
 		String time;
 		double time_ms;
 
@@ -81,11 +97,26 @@ public class TracingEngine {
 		 * tracing.
 		 */
 
+		for (Tracer t : tracerCollection){
+			sequence++;
+			t.trace(event, time, time_ms, sequence);
+		}
+
 	}
-	public void trace (State state){
+	public static void trace (State state){
 		/*
 		 * For each tracer in the tracerCollection its trace(State) method is called to produce the desired
 		 * tracing.
 		 */
+		String time;
+		double time_ms;
+
+		time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
+		time_ms = System.nanoTime()/1000000;
+
+		for (Tracer t : tracerCollection){
+			sequence++;
+			t.trace(state, time, time_ms, sequence);
+		}
 	}
 }
