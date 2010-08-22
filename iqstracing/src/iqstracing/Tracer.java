@@ -7,9 +7,10 @@ public abstract class Tracer {
 	String session;
 	String application;
 
-	public Tracer(String User, String Session){
-		this.user = User;
-		this.session = Session;
+	public Tracer(String application, String user, String session){
+		this.application = application;
+		this.user = user;
+		this.session = session;
 	}
 
 	public abstract void trace(Event event, String time, double time_ms, int sequence);

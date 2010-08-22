@@ -20,7 +20,7 @@ public class JCTracingTest {
 		TracingEngine te=new TracingEngine("minimalTest");
 
 		//Trace a minimal event
-		Event e1=new Event("START", null, null, null);
+		Event e1=new Event("START", null, null, null, null);
 		te.trace(e1);
 
 		/* EXPECTED
@@ -40,7 +40,7 @@ public class JCTracingTest {
 		te.startTracingToConsole();
 
 		//Trace a minimal event
-		Event e1=new Event("START", null, null, null);
+		Event e1=new Event("START", null, null, null, null);
 		te.trace(e1);
 
 		/* EXPECTED
@@ -63,7 +63,7 @@ public class JCTracingTest {
 		parameters.put("par2", "2");
 		parameters.put("par3", "3");
 
-		Event e1=new Event("START", parameters, null, null);
+		Event e1=new Event("START", parameters, null, null, null);
 		te.trace(e1);
 
 		/* EXPECTED
