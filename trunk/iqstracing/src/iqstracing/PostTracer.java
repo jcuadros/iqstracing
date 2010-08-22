@@ -2,8 +2,8 @@ package iqstracing;
 
 public class PostTracer extends Tracer {
 
-	public PostTracer(String User, String Session) {
-		super(User, Session);
+	public PostTracer(String application, String user, String session) {
+		super(application, user, session);
 		// TODO Auto-generated constructor stub
 	}
 
