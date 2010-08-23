@@ -7,9 +7,9 @@ public class TracingEngine {
 	String application;
 	String user;
 	String session;
-	static Collection<Tracer> tracerCollection = new LinkedList<Tracer>();
-	static boolean status = true;
-	static int sequence = 0;
+	Collection<Tracer> tracerCollection = new LinkedList<Tracer>();
+	boolean status = true;
+	int sequence = 0;
 
 	/**
 	 * Constructs a TracingEngine object using the specified
