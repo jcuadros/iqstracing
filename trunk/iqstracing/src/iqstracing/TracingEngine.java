@@ -3,6 +3,17 @@ package iqstracing;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+/**
+ * TracingEngine is the class which will control the tracing
+ * system for each application. It keeps information about
+ * the application being used, its user and the logged session.
+ * It controls the order of the traced events and adds
+ * the time at which the information was traced.
+ * The TracingEngine class provides a set of methods which
+ * allow keeping a collection of tracers and passing them
+ * the information to be traced. By default, it traces to
+ * console.
+ */
 public class TracingEngine {
 	String application;
 	String user;
@@ -105,7 +116,7 @@ public class TracingEngine {
 	 * where the information will be traced.
 	 */
 	public void startTracingToFile(String fileName){
-		FileTracer fileTracer = new FileTracer(user, session, fileName);
+		FileTracer fileTracer = new FileTracer(application, user, session, fileName);
 		if (!tracerCollection.contains(fileTracer))
 			tracerCollection.add(fileTracer);
 	}
@@ -166,14 +177,14 @@ public class TracingEngine {
 		time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
 		time_ms = System.nanoTime()/1000000;
 
-		if (tracerCollection.isEmpty())
-			tracerCollection.add(new ConsoleTracer(application, user, session));
-
-		for (Tracer t : tracerCollection){
-			sequence++;
-			t.trace(event, time, time_ms, sequence);
+		if (status){
+			if (tracerCollection.isEmpty())
+				tracerCollection.add(new ConsoleTracer(application, user, session));
+			for (Tracer t : tracerCollection){
+				sequence++;
+				t.trace(event, time, time_ms, sequence);
+			}
 		}
-
 	}
 
 
@@ -181,7 +192,8 @@ public class TracingEngine {
 	 * For each tracer in the tracerCollection its trace(State) method is
 	 * called to produce the desired tracing.
 	 *
-	 * @param state  State object.....
+	 * @param state  State object that contains the information to be traced
+	 * in traces based on states instead of actions.
 	 */
 	public void trace (State state){
 		String time;
@@ -190,12 +202,13 @@ public class TracingEngine {
 		time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
 		time_ms = System.nanoTime()/1000000;
 
-		if (tracerCollection.isEmpty())
-			tracerCollection.add(new ConsoleTracer(application, user, session));
-
-		for (Tracer t : tracerCollection){
-			sequence++;
-			t.trace(state, time, time_ms, sequence);
+		if (status){
+			if (tracerCollection.isEmpty())
+				tracerCollection.add(new ConsoleTracer(application, user, session));
+			for (Tracer t : tracerCollection){
+				sequence++;
+				t.trace(state, time, time_ms, sequence);
+			}
 		}
 	}
 }
