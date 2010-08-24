@@ -30,21 +30,21 @@ public class Event {
 	 * Constructs an Event object, which will contain the information about
 	 * an action that will be traced, from the specified arguments.
 	 *
-	 * @param actionName The name of the logged action
+	 * @param actionName String representing the name of the logged action
 	 *
-	 * @param actionParameters The current value of the different parameters
-	 * that the application has
+	 * @param actionParameters Map that contains the current value of the
+	 * different parameters that the application has
 	 *
-	 * @param eventType The type of the event, which can be either active or reactive,
-	 * depending on whether it is an action of the user or a response of the software
-	 * to a previous event.
+	 * @param eventType String representing the type of the event, which can be either
+	 * active or reactive, depending on whether it is an action of the user or a
+	 * response of the software to a previous event.
 	 *
-	 * @param eventPreReference The action of the user that is related to this reaction,
-	 * which will be ignored if the type of the event is active.
+	 * @param eventPreReference String representing the action of the user which is
+	 * related to this reaction, which will be ignored if the type of the event is active.
 	 *
-	 * @param description The description of the logged action, which consists on a
-	 * human-readable version of the traced information, so that it could be extracted
-	 * to form a narrative.
+	 * @param description String representing the description of the logged action,
+	 * which consists on a human-readable version of the traced information, so that
+	 * it could be extracted to form a narrative.
 	 */
 	public Event (String actionName, Map<String,String> actionParameters,
 				String eventType,String eventPreReference, String description){
