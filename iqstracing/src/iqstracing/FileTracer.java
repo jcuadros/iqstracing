@@ -17,7 +17,7 @@ public class FileTracer extends Tracer {
 
 	public void trace(Event event, String time, double time_ms, int sequence){
 		try {
-			String text = TextWriter.writeTracingText(this, event, time, time_ms, sequence);
+			String text = XMLTraceWriter.writeEvent(this, event, time, time_ms, sequence);
 			FileWriter writer = new FileWriter(file,true);
 			writer.write(text);
 			writer.close();
@@ -26,7 +26,7 @@ public class FileTracer extends Tracer {
 
 	public void trace(State state, String time, double time_ms, int sequence){
 		try {
-			String text = TextWriter.writeTracingText(this, state, time, time_ms, sequence);
+			String text = XMLTraceWriter.writeState(this, state, time, time_ms, sequence);
 			FileWriter writer = new FileWriter(file,true);
 			writer.write(text);
 			writer.close();

@@ -1,8 +1,8 @@
 package iqstracing;
 
-public class TextWriter {
+public class XMLTraceWriter {
 
-	public static String writeTracingText(Tracer t, Event event, String time,
+	public static String writeEvent(Tracer t, Event event, String time,
 								double time_ms, int sequence){
 
 		StringBuilder sb = new StringBuilder();
@@ -33,7 +33,7 @@ public class TextWriter {
 		return sb.toString();
 }
 
-	public static String writeTracingText(Tracer t, State state, String time,
+	public static String writeState(Tracer t, State state, String time,
 								double time_ms, int sequence){
 
 		StringBuilder sb = new StringBuilder();
