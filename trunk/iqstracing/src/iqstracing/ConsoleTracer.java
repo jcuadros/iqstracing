@@ -9,12 +9,12 @@ public class ConsoleTracer extends Tracer {
 	}
 
 	public void trace(Event event, String time, double time_ms, int sequence){
-		String text = TextWriter.writeTracingText(this, event, time, time_ms, sequence);
+		String text = XMLTraceWriter.writeEvent(this, event, time, time_ms, sequence);
 		System.out.println(text);
 	}
 
 	public void trace(State state, String time, double time_ms, int sequence){
-		String text = TextWriter.writeTracingText(this, state, time, time_ms, sequence);
+		String text = XMLTraceWriter.writeState(this, state, time, time_ms, sequence);
 		System.out.println(text);
 	}
 
