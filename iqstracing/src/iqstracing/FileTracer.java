@@ -3,7 +3,7 @@ package iqstracing;
 import java.io.*;
 
 public class FileTracer extends Tracer {
-	File file;
+	private File file;
 
 	public FileTracer (String application, String user, String session, String file){
 		super(application,user,session);
