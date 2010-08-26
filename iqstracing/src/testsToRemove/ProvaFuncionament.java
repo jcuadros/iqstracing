@@ -18,9 +18,9 @@ public class ProvaFuncionament {
 		map.put("way", "down");
 		Event event = new Event ("new force", map, "active", "", null);
 
-		String application = Tracer.setApplication();
-		String user = Tracer.setUser();
-		String session = Tracer.setSession();
+		String application = ""; //Tracer.setApplication();
+		String user = ""; //Tracer.setUser();
+		String session = ""; //Tracer.setSession();
 
 		TracingEngine tracingEngine = new TracingEngine(application, user, session);
 
