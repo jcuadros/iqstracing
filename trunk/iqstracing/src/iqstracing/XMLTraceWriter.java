@@ -27,7 +27,7 @@ public class XMLTraceWriter {
 				sb.append("<param name=\"" + key + "\" value=\"" + event.actionParameters.get(key)
 						+ "\"/>");
 		if (event.description != null)
-			sb.append("\t<description>" + event.description + "</description>");
+			sb.append("<description>" + event.description + "</description>");
 		sb.append("</event>");
 
 		return sb.toString();
