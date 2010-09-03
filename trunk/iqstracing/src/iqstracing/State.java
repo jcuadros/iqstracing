@@ -7,7 +7,7 @@ package iqstracing;
  * state.
  */
 public class State {
-	String description;
+	private String description;
 
 	/**
 	 * Constructs a State object from a specified description.
@@ -17,7 +17,17 @@ public class State {
 	 * version of the state of the application which is being
 	 * traced
 	 */
-	public State(String description){
+	public State(String description) {
 		this.description = description;
+	}
+
+	/**
+	 * Gets the description of the state.
+	 *
+	 * @return String representing a human-readable version of
+	 * the state of the application which is being traced
+	 */
+	protected String getDescription() {
+		return description;
 	}
 }
