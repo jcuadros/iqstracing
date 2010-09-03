@@ -19,61 +19,55 @@ class FileTracer extends Tracer {
 
 	protected void trace(Event event, String time,
 				double time_ms, int sequence) {
+		String text = XMLTraceWriter.writeEvent(this,
+				event, time, time_ms, sequence);
+		FileWriter writer;
 		try {
-			String text = XMLTraceWriter.writeEvent(this,
-					event, time, time_ms, sequence);
-			FileWriter writer = new FileWriter(file, true);
-			writer.write(text);
-			writer.close();
+			writer = new FileWriter(file, true);
+			try {
+				writer.write(text);
+			} catch (IOException e) {
+				System.err.println("/nCould not trace to the "
+						+ "desired file./n");
+				e.printStackTrace();
+			}
+			try {
+				writer.close();
+			} catch (IOException e) {
+				System.err.println("/nFile was not closed "
+						+ "correctly./n");
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
-			System.err.println(e.getMessage());
-
-			//FALTA!
-			/*
-			 *     ChangedCharSetException,
-			 *     CharacterCodingException,
-			 *     CharConversionException,
-			 *     ClosedChannelException,
-			 *     EOFException,
-			 *     FileLockInterruptionException,
-			 *     FileNotFoundException,
-			 *     HttpRetryException,
-			 *     IIOException,
-			 *     InterruptedIOException,
-			 *     InvalidPropertiesFormatException,
-			 *     JMXProviderException,
-			 *     JMXServerErrorException,
-			 *     MalformedURLException,
-			 *     ObjectStreamException,
-			 *     ProtocolException,
-			 *     RemoteException,
-			 *     SaslException,
-			 *     SocketException,
-			 *     SSLException,
-			 *     SyncFailedException,
-			 *     UnknownHostException,
-			 *     UnknownServiceException,
-			 *     UnsupportedEncodingException,
-			 *     UTFDataFormatException,
-			 *     ZipException
-			 */
-
-
+			System.err.println("/nFile could not be created./n");
+			e.printStackTrace();
 		}
 	}
 
 	public void trace(State state, String time,
 				double time_ms, int sequence) {
-		try {
-			String text = XMLTraceWriter.writeState(this,
+		String text = XMLTraceWriter.writeState(this,
 					state, time, time_ms, sequence);
-			FileWriter writer = new FileWriter(file, true);
-			writer.write(text);
-			writer.close();
+		FileWriter writer;
+		try {
+			writer = new FileWriter(file, true);
+			try {
+				writer.write(text);
+			} catch (IOException e) {
+				System.err.println("/nCould not trace to the "
+						+ "desired file./n");
+				e.printStackTrace();
+			}
+			try {
+				writer.close();
+			} catch (IOException e) {
+				System.err.println("/nFile was not closed "
+						+ "correctly./n");
+				e.printStackTrace();
+			}
 		} catch (IOException e) {
-			System.err.println(e.getStackTrace().toString());
-			//FALTA!!
-
+			System.err.println("/nFile could not be created./n");
+			e.printStackTrace();
 		}
 	}
 
