@@ -1,7 +1,8 @@
 package iqstracing;
 
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.Date;
 
 /**
  * TracingEngine is the class which will control the tracing
@@ -10,17 +11,18 @@ import java.util.*;
  * It controls the order of the traced events and adds
  * the time at which the information was traced.
  * The TracingEngine class provides a set of methods which
- * allow keeping a collection of tracers and passing them
- * the information to be traced. By default, it traces to
+ * allow keeping a collection of tracers and giving
+ * the information to be traced to them. By default, it traces to
  * console.
+ *
  */
 public class TracingEngine {
-	String application;
-	String user;
-	String session;
-	Collection<Tracer> tracerCollection = new LinkedList<Tracer>();
-	boolean status = true;
-	int sequence = 0;
+	private String application;
+	private String user;
+	private String session;
+	private LinkedList<Tracer> tracerCollection = new LinkedList<Tracer>();
+	private boolean tracingStatus = true;
+	private int sequence = 0;
 
 	/**
 	 * Constructs a TracingEngine object using the specified
@@ -29,13 +31,14 @@ public class TracingEngine {
 	 *
 	 * @param application  string that represents the program
 	 * or java applet that requests the tracing of an event
+	 * or state
 	 *
 	 * @param user  string representing the person who is
 	 * using the application and whose actions are being traced
 	 *
 	 * @param session  string that represents the logged session
 	 */
-	public TracingEngine (String application, String user, String session){
+	public TracingEngine(String application, String user, String session) {
 		this.application = application;
 		this.user = user;
 		this.session = session;
@@ -51,12 +54,14 @@ public class TracingEngine {
 	 *
 	 * @param application  string that represents the program
 	 * or java applet that requests the tracing of an event
+	 * or state
 	 *
 	 * @param user  string representing the person who is
 	 * using the application and whose actions are being traced
 	 */
-	public TracingEngine (String application, String user){
-		this(application,user,user + "_" + RandomGenerator.generate(6));
+	public TracingEngine(String application, String user) {
+		this(application, user, user + "_"
+				+ RandomGenerator.generate());
 	}
 
 
@@ -71,38 +76,12 @@ public class TracingEngine {
 	 *
 	 * @param application  string that represents the program
 	 * or java applet that requests the tracing of an event
+	 * or state
 	 */
-	public TracingEngine (String application){
+	public TracingEngine(String application) {
 		this.application = application;
-		this.user = RandomGenerator.generate(6);
-		this.session = this.user + "_" + RandomGenerator.generate(6);
-	}
-
-
-	/**
-	 * Sets the status field to the specified boolean value. This
-	 * value will be true by default and setting it to false
-	 * would easily stop the tracing system.
-	 *
-	 * @param b  boolean expression whose value will be assigned to
-	 * the status field
-	 */
-	public void setTracingStatus(boolean b){
-		status = b;
-		if (b == false)
-			tracerCollection.removeAll(tracerCollection);
-	}
-
-
-	/**
-	 * Gets the value of the status field, which will determine
-	 * whether the TracingEngine is tracing or not by means of
-	 * a boolean.
-	 *
-	 * @return the boolean value of the status field
-	 */
-	public boolean getTracingStatus(){
-		return status;
+		this.user = RandomGenerator.generate();
+		this.session = this.user + "_" + RandomGenerator.generate();
 	}
 
 	/**
@@ -115,10 +94,24 @@ public class TracingEngine {
 	 * @param fileName  string representing the name of the file
 	 * where the information will be traced.
 	 */
-	public void startTracingToFile(String fileName){
-		FileTracer fileTracer = new FileTracer(application, user, session, fileName);
-		if (!tracerCollection.contains(fileTracer))
+	public void startTracingToFile(String fileName) {
+		FileTracer fileTracer = new FileTracer(this, fileName);
+		boolean containsFileTracer = false;
+		LinkedList<FileTracer> fileTracerCollection =
+					new LinkedList<FileTracer>();
+		for (Tracer t : tracerCollection) {
+			if (t.getClass().getName() == "iqstracing.FileTracer") {
+				fileTracerCollection.add((FileTracer) t);
+			}
+		}
+		for (FileTracer ft : fileTracerCollection) {
+			if (ft.getFile().getName() == fileName) {
+				containsFileTracer = true;
+			}
+		}
+		if (!containsFileTracer) {
 			tracerCollection.add(fileTracer);
+		}
 	}
 
 
@@ -131,10 +124,19 @@ public class TracingEngine {
 	 * @param fileName  string representing the name of the file
 	 * where the information has been traced.
 	 */
-	public void stopTracingToFile(String fileName){
-		FileTracer fileTracer = new FileTracer(application, user, session, fileName);
-		if (tracerCollection.contains(fileTracer))
-			tracerCollection.remove(fileTracer);
+	public void stopTracingToFile(String fileName) {
+		LinkedList<FileTracer> fileTracerCollection =
+					new LinkedList<FileTracer>();
+		for (Tracer t : tracerCollection) {
+			if (t.getClass().getName() == "iqstracing.FileTracer") {
+				fileTracerCollection.add((FileTracer) t);
+			}
+		}
+		for (FileTracer ft : fileTracerCollection) {
+			if (ft.getFile().getName() == fileName) {
+				tracerCollection.remove(ft);
+			}
+		}
 	}
 
 
@@ -144,10 +146,11 @@ public class TracingEngine {
 	 * nothing is done. If the desired tracer does not exist,
 	 * it is created and added to the tracerCollection.
 	 */
-	public void startTracingToConsole(){
-		ConsoleTracer consoleTracer = new ConsoleTracer(application, user, session);
-		if (!tracerCollection.contains(consoleTracer))
+	public void startTracingToConsole() {
+		ConsoleTracer consoleTracer = new ConsoleTracer(this);
+		if (!hasConsoleTracer()) {
 			tracerCollection.add(consoleTracer);
+		}
 	}
 
 
@@ -156,32 +159,45 @@ public class TracingEngine {
 	 * In case the ConsoleTracer does not exist, nothing is done.
 	 * If the tracer exists, it is removed from the tracerCollection.
 	 */
-	public void stopTracingToConsole(){
-		ConsoleTracer consoleTracer = new ConsoleTracer(application, user, session);
-		if (tracerCollection.contains(consoleTracer))
-			tracerCollection.remove(consoleTracer);
+	public void stopTracingToConsole() {
+		ConsoleTracer ct = null;
+		for (Tracer t : tracerCollection) {
+			if (t.getClass().getName()
+					== "iqstracing.ConsoleTracer") {
+				ct = (ConsoleTracer) t;
+			}
+		}
+		if (ct != null) {
+			tracerCollection.remove(ct);
+		}
 	}
 
 
 	/**
 	 * For each tracer in the tracerCollection, its trace(Event) method
-	 * is called to produce the desired tracing.
+	 * is called to produce the desired tracing. It only traces if
+	 * tracingStatus is true.
 	 *
 	 * @param event  Event object that stores all the information about
 	 * the action that will be traced
+	 * *
+	 * @throws IOException If an I/O error occurs when tracing to a file.
 	 */
-	public void trace (Event event){
+	public void trace(Event event) {
 		String time;
 		double time_ms;
 
-		time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
+		time = (new SimpleDateFormat("yyyyMMddHHmmss zzz"))
+							.format(new Date());
 		time_ms = System.nanoTime()/1000000;
 
-		if (status){
-			if (tracerCollection.isEmpty())
-				tracerCollection.add(new ConsoleTracer(application, user, session));
-			for (Tracer t : tracerCollection){
-				sequence++;
+		ConsoleTracer consoleTracer = new ConsoleTracer(this);
+		if (tracingStatus) {
+			if (!this.hasConsoleTracer() && sequence == 0) {
+				tracerCollection.add(consoleTracer);
+			}
+			sequence++;
+			for (Tracer t : tracerCollection) {
 				t.trace(event, time, time_ms, sequence);
 			}
 		}
@@ -190,25 +206,133 @@ public class TracingEngine {
 
 	/**
 	 * For each tracer in the tracerCollection its trace(State) method is
-	 * called to produce the desired tracing.
+	 * called to produce the desired tracing. It only traces if
+	 * tracingStatus is true.
 	 *
 	 * @param state  State object that contains the information to be traced
 	 * in traces based on states instead of actions.
+	 *
+	 * @throws IOException If an I/O error occurs when tracing to a file.
 	 */
-	public void trace (State state){
+	public void trace(State state) {
 		String time;
 		double time_ms;
 
-		time = (new SimpleDateFormat("yyyyMMddHHmmss zzz")).format(new Date());
+		time = (new SimpleDateFormat("yyyyMMddHHmmss zzz"))
+							.format(new Date());
 		time_ms = System.nanoTime()/1000000;
 
-		if (status){
-			if (tracerCollection.isEmpty())
-				tracerCollection.add(new ConsoleTracer(application, user, session));
-			for (Tracer t : tracerCollection){
-				sequence++;
+		if (tracingStatus) {
+			ConsoleTracer consoleTracer = new ConsoleTracer(this);
+			if (!this.hasConsoleTracer()) {
+				tracerCollection.add(consoleTracer);
+			}
+			sequence++;
+			for (Tracer t : tracerCollection) {
 				t.trace(state, time, time_ms, sequence);
 			}
 		}
+	}
+
+
+	/**
+	 * Sets the tracingStatus to the specified boolean value. This
+	 * value will be true by default and setting it to false
+	 * will easily stop the tracing system.
+	 *
+	 * @param tracingStatus  boolean expression whose value will be
+	 * assigned to the tracingStatus field
+	 */
+	public void setTracingStatus(boolean tracingStatus) {
+		this.tracingStatus = tracingStatus;
+	}
+
+
+	/**
+	 * Gets the value of the tracingStatus, which will determine
+	 * whether the TracingEngine is tracing or not by means of
+	 * a boolean.
+	 *
+	 * @return the boolean value of the tracingStatus field
+	 */
+	public boolean getTracingStatus() {
+		return tracingStatus;
+	}
+
+	/**
+	 * Gets the user of the application.
+	 *
+	 * @return string representing the person who is
+	 * using the application and whose actions are being traced
+	 */
+	public String getUser() {
+		return user;
+	}
+
+	/**
+	 * Sets the user of the application to the specified value.
+	 *
+	 * @param user string representing the person who is
+	 * using the application and whose actions are being traced
+	 */
+	public void setUser(String user) {
+		this.user = user;
+	}
+
+	/**
+	 * Gets the logged session.
+	 *
+	 * @return string which represents the logged session
+	 */
+	public String getSession() {
+		return session;
+	}
+
+	/**
+	 * Sets the session to the specified value.
+	 *
+	 * @param session string which represents the logged session
+	 */
+	public void setSession(String session) {
+		this.session = session;
+	}
+
+	/**
+	 * Gets the application which requests the logging.
+	 *
+	 * @return string representing the program or java applet
+	 * which requests the tracing of an event or state
+	 */
+	public String getApplication() {
+		return application;
+	}
+
+	/**
+	 * Sets the application to the specified value.
+	 *
+	 * @param application string that represents the program
+	 * or java applet which requests the tracing of an event
+	 * or state
+	 */
+	public void setApplication(String application) {
+		this.application = application;
+	}
+
+	/**
+	 * Checks there is a ConsoleTracer in the tracerCollection.
+	 *
+	 * @return boolean value which is true when the
+	 * tracerCollection contains a ConsoleTracer and false
+	 * when it does not.
+	 */
+	private boolean hasConsoleTracer() {
+		boolean b = false;
+		for (Tracer t : tracerCollection) {
+			if (t.getClass().getName()
+					== "iqstracing.ConsoleTracer") {
+				b = true;
+			}
+		}
+		return b;
 	}
 }
