@@ -22,13 +22,16 @@ public class TracingEngine {
 	private String user;
 	private String session;
 	private LinkedList<Tracer> tracerCollection = new LinkedList<Tracer>();
-	private boolean tracingStatus = true;
+	private boolean tracingStatus;
 	private int sequence = 0;
 
 	/**
 	 * Constructs a TracingEngine object using the specified
 	 * string values of application, user and session, which
-	 * will be assigned to their respective fields.
+	 * will be assigned to their respective fields. The application
+	 * can never be null, and in this case the tracing status is set
+	 * to false, so that nothing can be traced. If the user or session
+	 * are null, they will be randomly created.
 	 *
 	 * @param application  string that represents the program
 	 * or java applet that requests the tracing of an event
@@ -40,9 +43,27 @@ public class TracingEngine {
 	 * @param session  string that represents the logged session
 	 */
 	public TracingEngine(String application, String user, String session) {
-		this.application = application;
-		this.user = user;
-		this.session = session;
+		if (application == null) {
+			this.setTracingStatus(false);
+			this.application = "ApplicationNotSpecified";
+		}
+		else {
+			this.application = application;
+			this.setTracingStatus(true);
+		}
+		if (user == null) {
+			this.user = RandomGenerator.generate();
+		}
+		else {
+			this.user = user;
+		}
+		if (session == null) {
+			this.session = this.user + "_"
+			+ RandomGenerator.generate();
+		}
+		else {
+			this.session = session;
+		}
 	}
 
 
@@ -61,8 +82,7 @@ public class TracingEngine {
 	 * using the application and whose actions are being traced
 	 */
 	public TracingEngine(String application, String user) {
-		this(application, user, user + "_"
-				+ RandomGenerator.generate());
+		this(application, user, null);
 	}
 
 
@@ -80,9 +100,7 @@ public class TracingEngine {
 	 * or state
 	 */
 	public TracingEngine(String application) {
-		this.application = application;
-		this.user = RandomGenerator.generate();
-		this.session = this.user + "_" + RandomGenerator.generate();
+		this(application, null, null);
 	}
 
 	/**
@@ -107,7 +125,6 @@ public class TracingEngine {
 				}
 			}
 		}
-
 		if (!containsFileTracer) {
 			tracerCollection.add(ft);
 		}
