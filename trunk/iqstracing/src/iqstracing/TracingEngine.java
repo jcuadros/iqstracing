@@ -46,6 +46,8 @@ public class TracingEngine {
 		if (application == null) {
 			this.setTracingStatus(false);
 			this.application = "ApplicationNotSpecified";
+			System.err.println("Application not specified. "
+				+ "The information will not be traced.");
 		}
 		else {
 			this.application = application;
@@ -246,7 +248,17 @@ public class TracingEngine {
 	 * assigned to the tracingStatus field
 	 */
 	public void setTracingStatus(boolean tracingStatus) {
-		this.tracingStatus = tracingStatus;
+		if (tracingStatus) {
+			if (this.application != null) {
+				this.tracingStatus = tracingStatus;
+			}
+			else {
+				this.tracingStatus = false;
+			}
+		}
+		else {
+			this.tracingStatus = tracingStatus;
+		}
 	}
 
 
