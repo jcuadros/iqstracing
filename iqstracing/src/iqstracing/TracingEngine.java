@@ -50,6 +50,7 @@ public class TracingEngine {
 		else {
 			this.application = application;
 			this.setTracingStatus(true);
+			this.tracerCollection.add(new ConsoleTracer(this));
 		}
 		if (user == null) {
 			this.user = RandomGenerator.generate();
@@ -202,11 +203,7 @@ public class TracingEngine {
 							.format(new Date());
 		time_ms = System.nanoTime()/1000000;
 
-		ConsoleTracer consoleTracer = new ConsoleTracer(this);
 		if (tracingStatus) {
-			if (!this.hasConsoleTracer() && sequence == 0) {
-				tracerCollection.add(consoleTracer);
-			}
 			sequence++;
 			for (Tracer t : tracerCollection) {
 				t.trace(event, time, time_ms, sequence);
@@ -232,10 +229,6 @@ public class TracingEngine {
 		time_ms = System.nanoTime()/1000000;
 
 		if (tracingStatus) {
-			ConsoleTracer consoleTracer = new ConsoleTracer(this);
-			if (!this.hasConsoleTracer()) {
-				tracerCollection.add(consoleTracer);
-			}
 			sequence++;
 			for (Tracer t : tracerCollection) {
 				t.trace(state, time, time_ms, sequence);
