@@ -10,14 +10,14 @@ import java.util.Hashtable;
  * <ul>
  * <li>The name of the logged action
  * <li>The current value of the different parameters that the application has
+ * <li>The description of the logged action, which consists on a human-readable
+ * version of the traced information, so that it could be extracted to form a
+ * narrative.
  * <li>The type of the event, which can be either active or reactive, depending
  * on whether it is an action of the user or a response of the software to a
  * previous event.
  * <li>The action of the user that is related to this reaction, which will be
  * ignored if the type of the event is active.
- * <li>The description of the logged action, which consists on a human-readable
- * version of the traced information, so that it could be extracted to form a
- * narrative.
  * </ul>
  */
 
@@ -37,29 +37,80 @@ public class Event {
 	 * @param actionName String representing the name of the logged action
 	 *
 	 * @param actionParameters Hashtable that contains the current value of
-	 * the different parameters that the application has
-	 *
-	 * @param eventType String representing the type of the event, which can
-	 * be either active or reactive, depending on whether it is an action of
-	 * the user or a response of the software to a previous event.
-	 *
-	 * @param eventPreReference String representing the action of the user
-	 * which is related to this reaction, which will be ignored if the type
-	 * of the event is active.
+	 * the different parameters that the application has. It can be null.
 	 *
 	 * @param description String representing the description of the logged
 	 * action, which consists on a human-readable version of the traced
-	 * information, so that it could be extracted to form a narrative.
+	 * information, so that it could be extracted to form a narrative. It
+	 * can be null.
+	 *
+	 * @param eventType String representing the type of the event, which can
+	 * be either active or reactive, depending on whether it is an action of
+	 * the user or a response of the software to a previous event. It can be
+	 * null.
+	 *
+	 * @param eventPreReference String representing the action of the user
+	 * which is related to this reaction, which will be ignored if the type
+	 * of the event is active. It can be null.
 	 */
 	public Event(String actionName,
 				Hashtable<String, String> actionParameters,
-				String eventType, String eventPreReference,
-				String description) {
+				String description, String eventType,
+				String eventPreReference) {
 		this.actionName = actionName;
 		this.actionParameters = actionParameters;
 		this.eventType = eventType;
 		this.eventPreReference = eventPreReference;
 		this.description = description;
+	}
+
+	/**
+	 * Constructs an Event object from the specified action name. The
+	 * rest of the properties of the event are not specified, so they
+	 * will be assigned as null and they will not appear in the trace.
+	 *
+	 * @param actionName String representing the name of the logged action
+	 */
+	public Event(String actionName) {
+		this(actionName, null, null, null, null);
+	}
+
+	/**
+	 * Constructs an Event object from the specified action name and
+	 * action parameters. The rest of the properties of the event are
+	 * not specified, so they will be assigned as null and they will
+	 * not appear in the trace.
+	 *
+	 * @param actionName String representing the name of the logged action
+	 *
+	 * @param actionParameters Hashtable that contains the current value of
+	 * the different parameters that the application has. It can be null.
+	 */
+	public Event(String actionName,
+				Hashtable<String, String> actionParameters) {
+		this(actionName, actionParameters, null, null, null);
+	}
+
+	/**
+	 * Constructs an Event object from the specified action name, action
+	 * parameters and description. The rest of the properties of the event
+	 * are not specified, so they will be assigned as null and they will
+	 * not appear in the trace.
+	 *
+	 * @param actionName String representing the name of the logged action
+	 *
+	 * @param actionParameters Hashtable that contains the current value of
+	 * the different parameters that the application has. It can be null.
+	 *
+	 * @param description String representing the description of the logged
+	 * action, which consists on a human-readable version of the traced
+	 * information, so that it could be extracted to form a narrative. It
+	 * can be null.
+	 */
+	public Event(String actionName,
+				Hashtable<String, String> actionParameters,
+				String description) {
+		this(actionName, actionParameters, description, null, null);
 	}
 
 	/**
