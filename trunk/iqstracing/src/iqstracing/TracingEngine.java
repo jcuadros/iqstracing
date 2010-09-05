@@ -1,5 +1,6 @@
 package iqstracing;
 
+import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.LinkedList;
 import java.util.Date;
@@ -95,22 +96,20 @@ public class TracingEngine {
 	 * where the information will be traced.
 	 */
 	public void startTracingToFile(String fileName) {
-		FileTracer fileTracer = new FileTracer(this, fileName);
+		FileTracer ft = new FileTracer(this, fileName);
 		boolean containsFileTracer = false;
-		LinkedList<FileTracer> fileTracerCollection =
-					new LinkedList<FileTracer>();
 		for (Tracer t : tracerCollection) {
 			if (t.getClass().getName() == "iqstracing.FileTracer") {
-				fileTracerCollection.add((FileTracer) t);
+				if (((FileTracer) t).getFile().
+						getAbsolutePath().equals(ft.
+						getFile().getAbsolutePath())) {
+					containsFileTracer = true;
+				}
 			}
 		}
-		for (FileTracer ft : fileTracerCollection) {
-			if (ft.getFile().getName() == fileName) {
-				containsFileTracer = true;
-			}
-		}
+
 		if (!containsFileTracer) {
-			tracerCollection.add(fileTracer);
+			tracerCollection.add(ft);
 		}
 	}
 
@@ -125,20 +124,17 @@ public class TracingEngine {
 	 * where the information has been traced.
 	 */
 	public void stopTracingToFile(String fileName) {
-		LinkedList<FileTracer> fileTracerCollection =
-					new LinkedList<FileTracer>();
+		File file = new File(fileName);
 		for (Tracer t : tracerCollection) {
 			if (t.getClass().getName() == "iqstracing.FileTracer") {
-				fileTracerCollection.add((FileTracer) t);
-			}
-		}
-		for (FileTracer ft : fileTracerCollection) {
-			if (ft.getFile().getName() == fileName) {
-				tracerCollection.remove(ft);
+				if (((FileTracer) t).getFile().
+						getAbsolutePath().equals(
+						file.getAbsolutePath())) {
+					tracerCollection.remove(t);
+				}
 			}
 		}
 	}
-
 
 	/**
 	 * Checks there is not already a ConsoleTracer in the
@@ -180,8 +176,6 @@ public class TracingEngine {
 	 *
 	 * @param event  Event object that stores all the information about
 	 * the action that will be traced
-	 * *
-	 * @throws IOException If an I/O error occurs when tracing to a file.
 	 */
 	public void trace(Event event) {
 		String time;
@@ -211,8 +205,6 @@ public class TracingEngine {
 	 *
 	 * @param state  State object that contains the information to be traced
 	 * in traces based on states instead of actions.
-	 *
-	 * @throws IOException If an I/O error occurs when tracing to a file.
 	 */
 	public void trace(State state) {
 		String time;
