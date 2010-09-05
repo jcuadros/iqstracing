@@ -43,30 +43,27 @@ public class TracingEngine {
 	 * @param session  string that represents the logged session
 	 */
 	public TracingEngine(String application, String user, String session) {
-		if (application == null) {
+		if (application == null || application == "") {
 			this.setTracingStatus(false);
 			this.application = "ApplicationNotSpecified";
 			System.err.println("Application not specified. "
 				+ "The information will not be traced.");
-		}
-		else {
+		} else {
 			this.application = application;
 			this.setTracingStatus(true);
-			this.tracerCollection.add(new ConsoleTracer(this));
 		}
-		if (user == null) {
+		if (user == null || user == "") {
 			this.user = RandomGenerator.generate();
-		}
-		else {
+		} else {
 			this.user = user;
 		}
-		if (session == null) {
+		if (session == null || session == "") {
 			this.session = this.user + "_"
 			+ RandomGenerator.generate();
-		}
-		else {
+		} else {
 			this.session = session;
 		}
+		this.tracerCollection.add(new ConsoleTracer(this));
 	}
 
 
@@ -118,12 +115,13 @@ public class TracingEngine {
 	 */
 	public void startTracingToFile(String fileName) {
 		FileTracer ft = new FileTracer(this, fileName);
+		String path = ft.getFile().getAbsolutePath().toLowerCase();
 		boolean containsFileTracer = false;
 		for (Tracer t : tracerCollection) {
 			if (t.getClass().getName() == "iqstracing.FileTracer") {
 				if (((FileTracer) t).getFile().
-						getAbsolutePath().equals(ft.
-						getFile().getAbsolutePath())) {
+						getAbsolutePath().toLowerCase().
+						equals(path)) {
 					containsFileTracer = true;
 				}
 			}
@@ -145,14 +143,19 @@ public class TracingEngine {
 	 */
 	public void stopTracingToFile(String fileName) {
 		File file = new File(fileName);
+		FileTracer ft = null;
 		for (Tracer t : tracerCollection) {
 			if (t.getClass().getName() == "iqstracing.FileTracer") {
 				if (((FileTracer) t).getFile().
-						getAbsolutePath().equals(
-						file.getAbsolutePath())) {
-					tracerCollection.remove(t);
+						getAbsolutePath().toLowerCase().
+						equals(file.getAbsolutePath().
+						toLowerCase())) {
+					ft = (FileTracer) t;
 				}
 			}
+		}
+		if (ft != null) {
+			tracerCollection.remove(ft);
 		}
 	}
 
@@ -192,7 +195,7 @@ public class TracingEngine {
 	/**
 	 * For each tracer in the tracerCollection, its trace(Event) method
 	 * is called to produce the desired tracing. It only traces if
-	 * tracingStatus is true.
+	 * tracingStatus is true and the name of the action name is specified.
 	 *
 	 * @param event  Event object that stores all the information about
 	 * the action that will be traced
@@ -206,9 +209,15 @@ public class TracingEngine {
 		time_ms = System.nanoTime()/1000000;
 
 		if (tracingStatus) {
-			sequence++;
-			for (Tracer t : tracerCollection) {
-				t.trace(event, time, time_ms, sequence);
+			if (event.getActionName() != null
+					&& event.getActionName() != "") {
+				sequence++;
+				for (Tracer t : tracerCollection) {
+					t.trace(event, time, time_ms, sequence);
+				}
+			} else {
+			System.err.println("Action name of the event not "
+				+ "specified. Event could not be traced.");
 			}
 		}
 	}
@@ -251,12 +260,10 @@ public class TracingEngine {
 		if (tracingStatus) {
 			if (this.application != null) {
 				this.tracingStatus = tracingStatus;
-			}
-			else {
+			} else {
 				this.tracingStatus = false;
 			}
-		}
-		else {
+		} else {
 			this.tracingStatus = tracingStatus;
 		}
 	}
