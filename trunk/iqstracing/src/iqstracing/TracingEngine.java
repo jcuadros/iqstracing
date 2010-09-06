@@ -142,7 +142,12 @@ public class TracingEngine {
 	 * where the information has been traced.
 	 */
 	public void stopTracingToFile(String fileName) {
-		File file = new File(fileName);
+		File file;
+		if (fileName == null || fileName == "") {
+			file = new File(this.session + ".log");
+		} else {
+			file = new File(fileName);
+		}
 		FileTracer ft = null;
 		for (Tracer t : tracerCollection) {
 			if (t.getClass().getName() == "iqstracing.FileTracer") {

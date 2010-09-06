@@ -9,12 +9,15 @@ class FileTracer extends Tracer {
 
 	protected FileTracer(TracingEngine parent, String file) {
 		super(parent);
-		this.file = new File(file);
+		if (file == null || file == "") {
+			this.file = new File(parent.getSession() + ".log");
+		} else {
+			this.file = new File(file);
+		}
 	}
 
 	protected FileTracer(TracingEngine parent) {
-		super(parent);
-		this.file = new File(parent.getSession() + ".log");
+		this(parent, null);
 	}
 
 	protected void trace(Event event, String time,
