@@ -262,12 +262,8 @@ public class TracingEngine {
 	 * assigned to the tracingStatus field
 	 */
 	public void setTracingStatus(boolean tracingStatus) {
-		if (tracingStatus) {
-			if (this.application != null) {
-				this.tracingStatus = tracingStatus;
-			} else {
-				this.tracingStatus = false;
-			}
+		if (this.application != null || this.application == "") {
+			this.tracingStatus = false;
 		} else {
 			this.tracingStatus = tracingStatus;
 		}
