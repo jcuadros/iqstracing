@@ -26,7 +26,7 @@ public class Tracer{
     public static void set_user(OpticalTweezersParametres par) {
 /**        do {
             user_id=JOptionPane.showInputDialog("Introdueix el teu nom","");
-        } while (user_id==null || user_id.equals("") || 
+        } while (user_id==null || user_id.equals("") ||
                 user_id.equals("null"));
         session_id=time_ini;
 **/
@@ -43,15 +43,15 @@ public class Tracer{
             session_id=time_ini;
         }
     }
-   
-    
+
+
     public static void newtrace(){
             jFileChooser2.showSaveDialog(null);
 
-            filename2 = jFileChooser2.getSelectedFile().toString();   
+            filename2 = jFileChooser2.getSelectedFile().toString();
             System.out.println(filename2);
     }
-    
+
     public static void start_trace() {
 
         //set_user();
@@ -66,7 +66,7 @@ public class Tracer{
             escriptor.write("\n");
             Date now = new Date();
             String time =sdf.format(now.getTime());//df.format(System.currentTimeMillis());
-            escriptor.write("<event application=\"Tweezers\" action=\"Tweezers_init\" user=\"" + 
+            escriptor.write("<event application=\"Tweezers\" action=\"Tweezers_init\" user=\"" +
                     user_id + "\" session=\"tweezers_"+time+"\" time=\""+ time + "\" time_ms=\""+ System.currentTimeMillis() + "\" number=\""+comptador+"\">");
             escriptor.write("\n");
             escriptor.write("<param name=\"version\" value=\"1.0 (May 28th, 2009)\"/>");
@@ -117,7 +117,7 @@ public class Tracer{
 
 // Todo xavi  add all params that I want to have recorded at startup, + calibration time + animation time
     }
-    
+
 
 
     public static void write_action_ini(String action_name) {
