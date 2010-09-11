@@ -198,9 +198,12 @@ public class TracingEngine {
 
 
 	/**
-	 * For each tracer in the tracerCollection, its trace(Event) method
-	 * is called to produce the desired tracing. It only traces if
-	 * tracingStatus is true and the name of the action name is specified.
+	 * Traces the information stored in an event adding information about
+	 * the time when the trace was written and the logged application, user
+	 * and session. For each tracer in the tracerCollection, its
+	 * trace(Event) method is called to produce the desired tracing. It only
+	 * traces if tracingStatus is true and the name of the action which the
+	 * event represents is specified.
 	 *
 	 * @param event  Event object that stores all the information about
 	 * the action that will be traced
@@ -229,8 +232,10 @@ public class TracingEngine {
 
 
 	/**
-	 * For each tracer in the tracerCollection its trace(State) method is
-	 * called to produce the desired tracing. It only traces if
+	 * Traces the information stored in a state adding information about
+	 * the time when the trace was written and the logged application, user
+	 * and session. For each tracer in the tracerCollection its trace(State)
+	 * method is called to produce the desired tracing. It only traces if
 	 * tracingStatus is true.
 	 *
 	 * @param state  State object that contains the information to be traced
