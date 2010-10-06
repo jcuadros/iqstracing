@@ -1,11 +1,11 @@
-package tests;
+package iqstracing.tests;
 
 import java.io.File;
 
 import iqstracing.Event;
 import iqstracing.TracingEngine;
 
-public class TestsToShow {
+public class MinimalTracingTestSuite {
     public static void main(String[]args) {
         minimalTest();
         minimalTestToFile();
