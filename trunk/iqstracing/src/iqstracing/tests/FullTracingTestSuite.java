@@ -1,32 +1,31 @@
-package tests;
+package iqstracing.tests;
 
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.util.Hashtable;
 import iqstracing.Event;
 import iqstracing.State;
 import iqstracing.TracingEngine;
 
-public class JCTracingTest {
+import java.io.File;
+import java.util.Hashtable;
+
+public class FullTracingTestSuite {
 
     public static void main(String[] args) {
         //Here the tests will be called
-        //minimalTest();
-        //minimalStateTest();
-        //fullySpecifiedMinimalTest();
-        //oneEventWithParametersTest();
-        //oneEventWithParametersAndDescriptionTest();
-        //oneEventWithDescriptionTest();
-        //minimalTestToFile();
-        //multipleEventTest();
-        //multipleEventAndTracerTest();
-        //openAndCloseTracersTest();
-        //simultaneousTracingEnginesTest();
-        //simultaneousTracingEnginesTest2();
-        //deleteAndCreateFileTest();
-        //nullApplicationTest();
-        //nullActionNameTest();
+        minimalTest();
+        minimalStateTest();
+        fullySpecifiedMinimalTest();
+        oneEventWithParametersTest();
+        oneEventWithParametersAndDescriptionTest();
+        oneEventWithDescriptionTest();
+        minimalTestToFile();
+        multipleEventTest();
+        multipleEventAndTracerTest();
+        openAndCloseTracersTest();
+        simultaneousTracingEnginesTest();
+        simultaneousTracingEnginesTest2();
+        deleteAndCreateFileTest();
+        nullApplicationTest();
+        nullActionNameTest();
         repeatedFileNamesTest();
     }
 
