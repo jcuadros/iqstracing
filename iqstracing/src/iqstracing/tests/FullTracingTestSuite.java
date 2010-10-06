@@ -711,9 +711,7 @@ public class FullTracingTestSuite {
         TracingEngine te = new TracingEngine("repeatedFileNamesTest");
         String file1 = "repeatTest.log";
         String file2 = "RepeatTest.log";
-        String file3 = "C:\\Documents and Settings\\jcoronas\\"
-                + "Escritorio\\NURIA\\JAVA\\workspace\\"
-                + "iqstracing\\repeatTest.log";
+        String file3 = "./repeatTest.log";
 
         new File(file1).delete();
         te.startTracingToFile(file1);
