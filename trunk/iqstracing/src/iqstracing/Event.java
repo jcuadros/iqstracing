@@ -19,6 +19,16 @@ import java.util.Hashtable;
  * <li>The action of the user that is related to this reaction, which will be
  * ignored if the type of the event is active.
  * </ul>
+ * <p>
+ * Code license: GNU General Public License v2
+ * <p>
+ * Content license: Creative Commons 3.0 BY-SA
+ *
+ * @author Núria Coronas
+ *
+ * @author Jordi Cuadros
+ *
+ *
  */
 
 public class Event {

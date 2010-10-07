@@ -15,6 +15,14 @@ import java.util.Date;
  * allow keeping a collection of tracers and giving
  * the information to be traced to them. By default, it traces to
  * console.
+ * <p>
+ * Code license: GNU General Public License v2
+ * <p>
+ * Content license: Creative Commons 3.0 BY-SA
+ *
+ * @author Núria Coronas
+ *
+ * @author Jordi Cuadros
  *
  */
 public class TracingEngine {
